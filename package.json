@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@tailwindcss/vite": "^4.3.3",
-    "mongodb": "^7.7.0",
-    "tailwindcss": "^4.3.3"
-  }
-}
