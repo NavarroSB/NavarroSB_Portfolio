@@ -1,7 +1,12 @@
 import express from 'express';
 import helmet from 'helmet';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createContactRoutes } from './routes/contactRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
+
+const clientDistPath = fileURLToPath(new URL('../../client/dist/', import.meta.url));
 
 export function createApp({ config, contactHandler, contactLimiter }) {
   const app = express();
@@ -15,6 +20,16 @@ export function createApp({ config, contactHandler, contactLimiter }) {
     contactHandler,
     contactLimiter,
   }));
+
+  app.use('/api', (_req, res) => res.status(404).json({ message: 'Not found.' }));
+
+  if (existsSync(clientDistPath)) {
+    app.use(express.static(clientDistPath));
+    app.get('*splat', (req, res, next) => {
+      if (req.accepts('html')) return res.sendFile(join(clientDistPath, 'index.html'));
+      return next();
+    });
+  }
 
   app.use((_req, res) => res.status(404).json({ message: 'Not found.' }));
   app.use(errorHandler);

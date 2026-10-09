@@ -14,42 +14,30 @@ Run the following commands from the Portfolio project root, the directory that c
 
 The server listens on port 3000 by default. Its health endpoint is `http://localhost:3000/api/health`.
 
-## Deploy the API to Render
+## Deploy the portfolio to Render
 
-Create a **Web Service** connected to this repository with:
+Create one **Web Service** connected to this repository. It builds the React frontend and serves it from Express alongside the contact API:
 
 | Setting | Value |
 | --- | --- |
-| Root Directory | `server` |
+| Root Directory | Leave blank (repository root) |
 | Runtime | Node |
-| Build Command | `npm ci` |
-| Start Command | `npm start` |
+| Build Command | `npm ci --prefix client && npm run build --prefix client && npm ci --prefix server` |
+| Start Command | `npm start --prefix server` |
 | Health Check Path | `/api/health` |
 
-Add these environment variables in the Render service's Environment settings:
+Add these environment variables in the Web Service's Environment settings:
 
 | Key | Value |
 | --- | --- |
 | `NODE_ENV` | `production` |
 | `MONGODB_URI` | Full Atlas connection string, including the `portfolio` database path |
-| `CLIENT_ORIGINS` | The deployed frontend origin, for example `https://your-portfolio.onrender.com` |
+| `CLIENT_ORIGINS` | This Web Service's exact public origin, for example `https://navarrosb-portfolio.onrender.com` |
 | `RESEND_API_KEY` | Your Resend API key |
 | `CONTACT_TO_EMAIL` | `navarrosb@proton.me` |
 | `EMAIL_FROM` | `Portfolio Contact <onboarding@resend.dev>` for initial testing, or an address on a verified Resend domain |
 
-Render sets `PORT` automatically. Do not add MongoDB or Resend credentials to the client service or frontend variables.
-
-## Deploy the frontend to Render
-
-Create a **Static Site** from the same repository with:
-
-| Setting | Value |
-| --- | --- |
-| Root Directory | `client` |
-| Build Command | `npm ci && npm run build` |
-| Publish Directory | `dist` |
-
-Set `VITE_API_BASE_URL` to the API service's public URL, without a trailing slash (for example, `https://your-contact-api.onrender.com`). After Render assigns the frontend URL, set the API's `CLIENT_ORIGINS` to that exact origin and redeploy the API.
+Render sets `PORT` automatically. Do not add MongoDB or Resend credentials to the frontend. In production, the client uses same-origin `/api/contact` requests, so `VITE_API_BASE_URL` can remain unset. The root URL serves the portfolio; `/api/health` and `/api/contact` serve the API. No separate Static Site is required.
 
 ## MongoDB Atlas connection string
 
