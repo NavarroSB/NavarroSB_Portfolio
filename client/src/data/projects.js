@@ -10,17 +10,17 @@ export const profile = {
 // Leave image and URLs empty until ready; no broken images or fake links appear.
 export const projects = [
   {
-    id: 'html-data-parser',
-    title: 'HTML Data Parser',
+    id: 'java-unicode-data-decoder',
+    title: 'Java Unicode Data Decoder',
     category: 'Data & tooling',
     status: 'Built',
-    summary: 'Making sense of HTML, one piece of data at a time.',
-    description: 'A project focused on parsing data from HTML. Screenshots, implementation details, and a closer look at the workflow are coming soon.',
-    tags: ['HTML', 'Data parsing'],
+    summary: 'Turning escaped Unicode data into readable text.',
+    description: 'A Java utility for decoding Unicode escape sequences into readable text.',
+    tags: ['Java', 'Unicode', 'Data decoding'],
     image: '',
-    imageAlt: 'HTML Data Parser project screenshot',
-    preview: 'parser',
-    githubUrl: '',
+    imageAlt: 'Java Unicode Data Decoder project screenshot',
+    preview: 'decoder',
+    githubUrl: 'https://github.com/NavarroSB/Java-Decoder',
     liveUrl: '',
   },
   {
@@ -34,7 +34,7 @@ export const projects = [
     image: '',
     imageAlt: 'Web Server project screenshot',
     preview: 'server',
-    githubUrl: '',
+    githubUrl: 'https://github.com/NavarroSB/Web_Server',
     liveUrl: '',
   },
 ]
