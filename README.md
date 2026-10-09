@@ -22,7 +22,7 @@ Create one **Web Service** connected to this repository. It builds the React fro
 | --- | --- |
 | Root Directory | Leave blank (repository root) |
 | Runtime | Node |
-| Build Command | `npm ci --prefix client && npm run build --prefix client && npm ci --prefix server` |
+| Build Command | `npm ci --include=dev --prefix client && npm run build --prefix client && npm ci --prefix server` |
 | Start Command | `npm start --prefix server` |
 | Health Check Path | `/api/health` |
 
