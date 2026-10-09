@@ -2,13 +2,15 @@ import { describe, expect, it, vi } from 'vitest';
 import request from 'supertest';
 import { rateLimit } from 'express-rate-limit';
 import { EventEmitter } from 'node:events';
+import { fileURLToPath } from 'node:url';
 import { createApp } from '../src/app.js';
 import { startServer } from '../src/server.js';
 
 const config = { port: 4321, clientOrigins: ['https://portfolio.example'] };
+const spaFixturePath = fileURLToPath(new URL('./fixtures/spa/', import.meta.url));
 
-function setup({ contactHandler = (_req, res) => res.status(201).json({ message: 'Message received.' }), contactLimiter } = {}) {
-  return createApp({ config, contactHandler, contactLimiter });
+function setup({ contactHandler = (_req, res) => res.status(201).json({ message: 'Message received.' }), contactLimiter, clientDistPath = spaFixturePath } = {}) {
+  return createApp({ config, contactHandler, contactLimiter, clientDistPath });
 }
 
 describe('createApp', () => {
@@ -56,10 +58,17 @@ describe('createApp', () => {
     expect(response.headers['access-control-allow-origin']).toBe('https://portfolio.example');
   });
 
-  it('returns JSON for an unknown route', async () => {
-    const response = await request(setup()).get('/unknown');
+  it('returns JSON 404 for an unknown route accepting JSON', async () => {
+    const response = await request(setup()).get('/unknown').set('Accept', 'application/json');
     expect(response.status).toBe(404);
     expect(response.body).toEqual({ message: 'Not found.' });
+  });
+
+  it('serves the SPA shell for an unknown route accepting HTML', async () => {
+    const response = await request(setup()).get('/unknown').set('Accept', 'text/html');
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(/^text\/html/);
+    expect(response.text).toContain('<main id="portfolio-test-shell">Portfolio</main>');
   });
 
   it('hides unexpected handler errors', async () => {

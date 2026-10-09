@@ -8,6 +8,7 @@ const environmentSchema = z.object({
   RESEND_API_KEY: z.string().trim().min(1),
   CONTACT_TO_EMAIL: z.string().trim().pipe(z.email()),
   EMAIL_FROM: z.string().trim().min(1).default('Portfolio Contact <onboarding@resend.dev>'),
+  CONTACT_ADMIN_TOKEN: z.string().trim().default(''),
 });
 
 export function parseEnvironment(source) {
@@ -26,5 +27,6 @@ export function parseEnvironment(source) {
     resendApiKey: config.RESEND_API_KEY,
     contactToEmail: config.CONTACT_TO_EMAIL,
     emailFrom: config.EMAIL_FROM,
+    contactAdminToken: config.CONTACT_ADMIN_TOKEN,
   };
 }

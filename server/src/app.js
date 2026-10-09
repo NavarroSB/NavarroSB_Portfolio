@@ -6,9 +6,9 @@ import { fileURLToPath } from 'node:url';
 import { createContactRoutes } from './routes/contactRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
-const clientDistPath = fileURLToPath(new URL('../../client/dist/', import.meta.url));
+const defaultClientDistPath = fileURLToPath(new URL('../../client/dist/', import.meta.url));
 
-export function createApp({ config, contactHandler, contactLimiter }) {
+export function createApp({ config, contactHandler, contactLimiter, contactAdminRouter, clientDistPath = defaultClientDistPath }) {
   const app = express();
   app.set('trust proxy', 1);
   app.use(helmet());
@@ -20,6 +20,8 @@ export function createApp({ config, contactHandler, contactLimiter }) {
     contactHandler,
     contactLimiter,
   }));
+
+  if (contactAdminRouter) app.use('/api/admin/contacts', contactAdminRouter);
 
   app.use('/api', (_req, res) => res.status(404).json({ message: 'Not found.' }));
 

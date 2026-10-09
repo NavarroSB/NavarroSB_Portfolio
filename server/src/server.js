@@ -6,6 +6,10 @@ import { parseEnvironment } from './config/env.js';
 import { connectDatabase } from './config/db.js';
 import { createEmailService } from './services/emailService.js';
 import { createContactController } from './controllers/contactController.js';
+import { createContactAdminController } from './controllers/contactAdminController.js';
+import { createContactAdminRoutes } from './routes/contactAdminRoutes.js';
+import { adminAuth } from './middleware/adminAuth.js';
+import Contact from './models/Contact.js';
 import { createApp } from './app.js';
 
 export async function startServer({
@@ -14,6 +18,10 @@ export async function startServer({
   createApplication = (settings) => createApp({
     config: settings,
     contactHandler: createContactController({ emailService: createEmailService(settings) }),
+    contactAdminRouter: createContactAdminRoutes({
+      authenticate: adminAuth(settings),
+      controller: createContactAdminController({ ContactModel: Contact }),
+    }),
   }),
   closeDatabase = () => mongoose.disconnect(),
   signals = process,
