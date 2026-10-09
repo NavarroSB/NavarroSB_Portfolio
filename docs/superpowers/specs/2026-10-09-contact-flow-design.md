@@ -169,7 +169,7 @@ Final verification includes server tests, client lint, client production build, 
 
 Bradley will create the MongoDB Atlas cluster, database user, and Render service, then enter secrets directly into their dashboards. Credentials will not be pasted into source code or chat.
 
-The implementation will provide exact variable names, start commands, and deployment settings. Resend requires an API key and an authorized sender address. Until a custom sender domain is verified, development can use an allowed Resend test sender, but production notification delivery should use a verified domain.
+The implementation will provide exact variable names, start commands, and deployment settings. Resend requires an API key, but the initial deployment does not require a purchased domain: it will use `Portfolio Contact <onboarding@resend.dev>` and send notifications to the email address associated with Bradley's Resend account. When Bradley purchases and verifies a domain, only `EMAIL_FROM` needs to change. Render's generated service URL is sufficient for the API until a custom web domain is purchased.
 
 ## Deferred Work
 
@@ -182,4 +182,3 @@ The following are explicitly outside this MVP:
 - Automated notification retries or queues
 - Analytics
 - Supabase integration
-
