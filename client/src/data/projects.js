@@ -1,5 +1,9 @@
 // Add your public contact address when you are ready to accept inquiries.
-export const profile = { email: 'NavarroSB@proton.me' }
+export const profile = {
+  email: 'NavarroSB@proton.me',
+  githubUrl: 'https://github.com/NavarroSB',
+  linkedinUrl: 'https://www.linkedin.com/in/navarrosb/',
+}
 
 // Copy an object to add a project. Each entry creates a card AND a details modal.
 // Put screenshots in public/projects/ and use image: '/projects/your-image.webp'.
