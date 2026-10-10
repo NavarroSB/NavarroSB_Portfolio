@@ -33,7 +33,7 @@ function ContactForm() {
   return (
     <section id="contact" className="page-width section-space">
       <div className="mx-auto max-w-3xl">
-        <p className="eyebrow">04 / Your next idea starts here</p>
+        <p className="eyebrow">04 / Want to connect?</p>
         <h2 className="section-heading mt-5">Contact me<span className="text-mint">.</span></h2>
         <p className="mt-4 max-w-xl leading-7 text-muted">Have an opportunity, project, or question? Send me a message and I’ll get back to you.</p>
 
